@@ -1,6 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeItem, updateQuantity } from "./CartSlice";
+import {
+  removeItem,
+  updateQuantity,
+  incrementQuantity,
+  decrementQuantity,
+} from "./CartSlice";
 import "./CartItem.css";
 import { useEffect } from "react";
 
@@ -19,9 +24,13 @@ const CartItem = ({ onContinueShopping }) => {
     );
   };
 
-  const handleIncrement = (item) => {};
+  const handleIncrement = (item) => {
+    dispatch(incrementQuantity(item));
+  };
 
-  const handleDecrement = (item) => {};
+  const handleDecrement = (item) => {
+    dispatch(decrementQuantity(item));
+  };
 
   const handleRemove = (item) => {};
 
