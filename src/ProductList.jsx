@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./ProductList.css";
 import CartItem from "./CartItem";
 import { addItem, removeItem, updateQuantity } from "./CartSlice";
@@ -7,7 +7,11 @@ function ProductList() {
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
   const [addedToCart, setAddedToCart] = useState({});
+  //const [counter, setCounter] = useState < number > 0;
   const dispatch = useDispatch();
+  const cart = useSelector((state) =>
+    state?.cart?.items?.reduce((acc, curr) => acc + curr.quantity, 0)
+  );
 
   const plantsArray = [
     {
@@ -251,6 +255,7 @@ function ProductList() {
       ],
     },
   ];
+
   const styleObj = {
     backgroundColor: "#4CAF50",
     color: "#fff!important",
@@ -273,7 +278,7 @@ function ProductList() {
   };
   const handleCartClick = (e) => {
     e.preventDefault();
-    setShowCart(true); // Set showCart to true when cart icon is clicked
+    setShowCart(true);
   };
   const handlePlantsClick = (e) => {
     e.preventDefault();
@@ -290,9 +295,22 @@ function ProductList() {
     dispatch(addItem(product));
     setAddedToCart((prevState) => ({
       ...prevState,
-      [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
+      [product.name]: true,
+      // Set the product name as key and value as true to indicate it's added to cart
     }));
   };
+
+  // const getProducts = () => {
+  //   let counter = 0;
+  //   products.map((product) => {
+  //     counter++;
+  //   });
+  //   setCounter(counter);
+  // };
+  // useEffect(() => {
+  //   getProducts();
+  // }, []);
+
   return (
     <div>
       <div className="navbar" style={styleObj}>
@@ -325,6 +343,7 @@ function ProductList() {
             {" "}
             <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
               <h1 className="cart">
+                {cart ?? 0}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 256 256"
@@ -384,5 +403,4 @@ function ProductList() {
     </div>
   );
 }
-
 export default ProductList;
