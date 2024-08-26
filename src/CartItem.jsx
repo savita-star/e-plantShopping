@@ -32,10 +32,22 @@ const CartItem = ({ onContinueShopping }) => {
     dispatch(decrementQuantity(item));
   };
 
-  const handleRemove = (item) => {};
+  const handleRemove = (item) => {
+    dispatch(removeItem(item));
+  };
+  const calculateTotalCost = (items) => {
+    return items?.reduce(
+      (total, item) => total + parseFloat(item.cost) * item.quantity,
+      0
+    );
+  };
 
   // Calculate total cost based on quantity for an item
-  const calculateTotalCost = (item) => {};
+  // const calculateTotalCost = () => {
+  //   return cart?.reduce((total, plant) => {
+  //     return total + parseFloat(plant.unitCost) * plant.quantity;
+  //   }, 0);
+  // };
 
   return (
     <div className="cart-container">
@@ -48,7 +60,7 @@ const CartItem = ({ onContinueShopping }) => {
             <img className="cart-item-image" src={item.image} alt={item.name} />
             <div className="cart-item-details">
               <div className="cart-item-name">{item.name}</div>
-              <div className="cart-item-cost">{item.cost}</div>
+              <div className="cart-item-cost">${item.cost}</div>
               <div className="cart-item-quantity">
                 <button
                   className="cart-item-button cart-item-button-dec"
@@ -67,7 +79,7 @@ const CartItem = ({ onContinueShopping }) => {
                 </button>
               </div>
               <div className="cart-item-total">
-                Total: ${calculateTotalCost(item)}
+                Total: ${calculateTotalCost(cart)}
               </div>
               <button
                 className="cart-item-delete"
